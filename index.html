@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Paper Table</title>
+    <title>Paper Storage</title>
   </head>
   <body>
     <div class="appContainer">
-      <div class="header">
-        <h1>Paper Table:</h1>
-      </div>
+      <input type="file" onchange="loadSource()" />
+      <br />
+      <p class="content"></p>
       <div class="container">
         <table>
           <tr>
