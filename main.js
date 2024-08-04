@@ -1,4 +1,5 @@
 // MVP - Minimum Viable Program
+
 const tableTemplate = document.querySelector("table").innerHTML;
 let showInput = false;
 // Retrieve to from JSON
@@ -49,8 +50,10 @@ function toggleInput() {
   showInput = !showInput;
 
   if (showInput) {
+    document.getElementById("txt").className = "btn btn-dark me-3";
     document.getElementById("sourceDiv").style.visibility = "visible";
   } else {
+    document.getElementById("txt").className = "btn btn-outline-dark me-3";
     document.getElementById("sourceDiv").style.visibility = "hidden";
   }
 }

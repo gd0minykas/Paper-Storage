@@ -15,10 +15,14 @@
   <body>
     <div class="container mt-5">
       <div class="mb-3">
-        <button onclick="toggleInput()" class="btn btn-info me-3">
+        <button
+          onclick="toggleInput()"
+          id="txt"
+          class="btn btn-outline-dark me-3"
+        >
           From txt file
         </button>
-        <button onclick="retrieveJSON()" class="btn btn-info" disabled>
+        <button onclick="retrieveJSON()" class="btn btn-outline-dark" disabled>
           From JSON file
         </button>
       </div>
@@ -53,7 +57,7 @@
           </tr>
         </table>
         <div class="mt-5">
-          <button onclick="resetTable()" class="btn btn-success">
+          <button onclick="resetTable()" class="btn btn-dark">
             Reset Table
           </button>
         </div>
