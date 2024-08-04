@@ -1,3 +1,5 @@
+// MVP - Minimum Viable Program
+const tableTemplate = document.querySelector("table").innerHTML;
 let showInput = false;
 // Retrieve to from JSON
 function retrieveJSON() {
@@ -13,16 +15,51 @@ function retrieveJSON() {
 
 // Retreive from a txt.
 function retrieveTXT() {
-  const fr = new FileReader();
-  showInput = true;
+  if (document.querySelector("input[type=file]").value !== "") {
+    document.querySelector("table").innerHTML = tableTemplate;
+    const [file] = document.querySelector("input[type=file]").files;
+    const fr = new FileReader();
 
-  if (showInput) {
-    document.getElementById("sourceDiv").style.visibility = "visible";
+    if (file) {
+      fr.readAsText(file);
+    }
+
+    fr.addEventListener("load", () => {
+      // populating the table
+      const workers = fr.result.split("\n");
+      for (let i = 0; i < workers.length; i++) {
+        console.log(workers[i]);
+        const temp = workers[i].split(" ");
+        document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
+        document.getElementById(`output${i}`).innerHTML += `<th>${i + 1}</th>`;
+        for (let j = 0; j < temp.length; j++) {
+          console.log(temp[j]);
+          document.getElementById(
+            `output${i}`
+          ).innerHTML += `<td>${temp[j]}</td>`;
+        }
+      }
+    });
+  } else {
+    alert("Empty file input");
   }
-
-  console.log(showInput);
 }
 
 function toggleInput() {
-  document.getElementById("sourceDiv").style.visibility = "hidden";
+  showInput = !showInput;
+
+  if (showInput) {
+    document.getElementById("sourceDiv").style.visibility = "visible";
+  } else {
+    document.getElementById("sourceDiv").style.visibility = "hidden";
+  }
+}
+
+function clearInput() {
+  document.querySelector("input[type=file]").value = "";
+}
+
+function resetTable() {
+  clearInput();
+  document.querySelector("table").innerHTML = tableTemplate;
 }

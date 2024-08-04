@@ -15,7 +15,7 @@
   <body>
     <div class="container mt-5">
       <div class="mb-3">
-        <button onclick="retrieveTXT()" class="btn btn-info me-3">
+        <button onclick="toggleInput()" class="btn btn-info me-3">
           From txt file
         </button>
         <button onclick="retrieveJSON()" class="btn btn-info" disabled>
@@ -26,13 +26,20 @@
         <div class="mb-3 row" id="sourceDiv" style="visibility: hidden">
           <div class="col">
             <label for="file" class="form-label">Choose a source</label>
-            <input type="file" class="form-control" name="file" />
+            <input
+              type="file"
+              class="form-control"
+              name="file"
+              onchange="retrieveTXT()"
+            />
           </div>
           <div class="col mt-3 pt-3">
-            <button onclick="toggleInput()" class="btn btn-danger">X</button>
+            <button onclick="clearInput()" class="btn btn-warning">
+              clear
+            </button>
           </div>
         </div>
-        <table class="table table-striped caption-top">
+        <table class="table caption-top">
           <tr>
             <caption>
               Storage workers list
@@ -44,8 +51,12 @@
             <th>Nickname</th>
             <th>Surname</th>
           </tr>
-          <tr></tr>
         </table>
+        <div class="mt-5">
+          <button onclick="resetTable()" class="btn btn-success">
+            Reset Table
+          </button>
+        </div>
       </div>
     </div>
   </body>
