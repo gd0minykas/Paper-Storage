@@ -3,32 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="styles.css" />
     <title>Paper Storage</title>
   </head>
   <body>
-    <div class="appContainer">
-      <input type="file" onchange="loadSource()" />
-      <br />
-      <p class="content"></p>
-      <div class="container">
-        <table>
+    <div class="container mt-5">
+      <div class="mb-3">
+        <button onclick="retrieveTXT()" class="btn btn-info me-3">
+          From txt file
+        </button>
+        <button onclick="retrieveJSON()" class="btn btn-info" disabled>
+          From JSON file
+        </button>
+      </div>
+      <div>
+        <div class="mb-3 row" id="sourceDiv" style="visibility: hidden">
+          <div class="col">
+            <label for="file" class="form-label">Choose a source</label>
+            <input type="file" class="form-control" name="file" />
+          </div>
+          <div class="col mt-3 pt-3">
+            <button onclick="toggleInput()" class="btn btn-danger">X</button>
+          </div>
+        </div>
+        <table class="table table-striped caption-top">
           <tr>
             <caption>
               Storage workers list
             </caption>
           </tr>
           <tr>
+            <th>#</th>
             <th>Name</th>
             <th>Nickname</th>
-            <th>Hobby</th>
+            <th>Surname</th>
           </tr>
-          <tr>
-            <td></td>
-          </tr>
+          <tr></tr>
         </table>
       </div>
     </div>
   </body>
   <script src="main.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
 </html>

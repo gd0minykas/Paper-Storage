@@ -1,13 +1,28 @@
-function loadSource() {
-  const reader = new FileReader();
-  const content = document.querySelector(".content");
-  const [file] = document.querySelector("input[type=file]").files;
+let showInput = false;
+// Retrieve to from JSON
+function retrieveJSON() {
+  fetch("./source.json")
+    .then((res) => {
+      if (!res.ok) {
+        alert("Failed reading JSON");
+      }
+      return res.json();
+    })
+    .then((json) => json.forEach((b) => console.log(b.Name)));
+}
 
-  reader.addEventListener("load", () => {
-    content.innerText = reader.result;
-  });
+// Retreive from a txt.
+function retrieveTXT() {
+  const fr = new FileReader();
+  showInput = true;
 
-  if (file) {
-    reader.readAsText(file);
+  if (showInput) {
+    document.getElementById("sourceDiv").style.visibility = "visible";
   }
+
+  console.log(showInput);
+}
+
+function toggleInput() {
+  document.getElementById("sourceDiv").style.visibility = "hidden";
 }
