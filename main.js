@@ -1,7 +1,10 @@
 // MVP - Minimum Viable Program
+// Maybe REDO with blob.text .txt part later?
 
+// const fs = require("fs");
 const tableTemplate = document.querySelector("table").innerHTML;
 let showInput = false;
+
 // Retrieve to from JSON
 function retrieveJSON() {
   fetch("./source.json")
@@ -19,11 +22,14 @@ function retrieveTXT() {
   if (document.querySelector("input[type=file]").value !== "") {
     document.querySelector("table").innerHTML = tableTemplate;
     const [file] = document.querySelector("input[type=file]").files;
-    const fr = new FileReader();
-
-    if (file) {
-      fr.readAsText(file);
+    if (!file) {
+      return;
     }
+    if (file.type !== "text/plain") {
+      return alert("Only text files (.txt) supported!");
+    }
+    const fr = new FileReader();
+    fr.readAsText(file);
 
     fr.addEventListener("load", () => {
       // populating the table
@@ -41,9 +47,19 @@ function retrieveTXT() {
         }
       }
     });
+
+    fr.addEventListener("error", (e) => {
+      const error = e.target.error;
+      alert(`Error while reading a file. ${error}`);
+    });
   } else {
     alert("Empty file input");
   }
+
+  // const data = "test";
+  // fs.writeFile(file, data, (err) => {
+  //   return alert("Failed to write file");
+  // });
 }
 
 function toggleInput() {
