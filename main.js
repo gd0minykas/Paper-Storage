@@ -11,6 +11,7 @@ function worker(name, nickname, surname) {
 
 // Retrieve to from JSON
 function retrieveJSON() {
+  resetTable();
   fetch("./source.json")
     .then((res) => {
       if (!res.ok) {
@@ -18,20 +19,31 @@ function retrieveJSON() {
       }
       return res.json();
     })
-    .then((json) => console.log(json));
+    .then((json) => {
+      let i = 0;
+      const workers = new Array();
+      json.forEach((e) => {
+        const workerObject = new worker(e.Name, e.Nickname, e.Surname);
+        workers[i] = workerObject;
+        i++;
+      });
+      populateRow(workers);
+    });
 }
 
 // Retreive from a txt.
+// File format with '' to allow names with whitespaces.
 function retrieveTXT() {
+  // reading a file
   if (document.querySelector("input[type=file]").value !== "") {
     document.querySelector("table").innerHTML = tableTemplate;
     const [file] = document.querySelector("input[type=file]").files;
-    if (!file) {
-      return;
+    if (!file && file.type !== "text/plain") {
+      return alert(
+        "Only text files (.txt) supported or file was not provided!"
+      );
     }
-    if (file.type !== "text/plain") {
-      return alert("Only text files (.txt) supported!");
-    }
+    // Iniciating a FileReader and reading as text.
     const fr = new FileReader();
     fr.readAsText(file);
 
@@ -42,20 +54,19 @@ function retrieveTXT() {
       const workers = new Array();
       for (let i = 0; i < result.length; i++) {
         const temp = result[i].split(" ");
-        for (let j = 0; j < temp.length; j++) {}
         const workerObject = new worker(temp[0], temp[1], temp[2]);
         workers[i] = workerObject;
       }
       // populating the table
       populateRow(workers);
     });
-
+    // Error handling
     fr.addEventListener("error", (e) => {
       const error = e.target.error;
-      alert(`Error while reading a file. ${error}`);
+      return alert(`Error while reading a file. ${error}`);
     });
   } else {
-    alert("Empty file input");
+    return alert("Empty file input");
   }
 }
 
@@ -88,6 +99,7 @@ function clearInput() {
 }
 
 function resetTable() {
+  // Thinking about this!! Remove clearInput and call as both clear and reset.
   clearInput();
   document.querySelector("table").innerHTML = tableTemplate;
 }
