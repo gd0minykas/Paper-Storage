@@ -1,20 +1,24 @@
 // MVP - Minimum Viable Program
-// Maybe REDO with blob.text .txt part later?
 
-// const fs = require("fs");
 const tableTemplate = document.querySelector("table").innerHTML;
 let showInput = false;
+
+function worker(name, nickname, surname) {
+  this.name = name;
+  this.nickname = nickname;
+  this.surname = surname;
+}
 
 // Retrieve to from JSON
 function retrieveJSON() {
   fetch("./source.json")
     .then((res) => {
       if (!res.ok) {
-        alert("Failed reading JSON");
+        return alert("Failed reading JSON");
       }
       return res.json();
     })
-    .then((json) => json.forEach((b) => console.log(b.Name)));
+    .then((json) => console.log(json));
 }
 
 // Retreive from a txt.
@@ -32,20 +36,18 @@ function retrieveTXT() {
     fr.readAsText(file);
 
     fr.addEventListener("load", () => {
-      // populating the table
-      const workers = fr.result.split("\n");
-      for (let i = 0; i < workers.length; i++) {
-        console.log(workers[i]);
-        const temp = workers[i].split(" ");
-        document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
-        document.getElementById(`output${i}`).innerHTML += `<th>${i + 1}</th>`;
-        for (let j = 0; j < temp.length; j++) {
-          console.log(temp[j]);
-          document.getElementById(
-            `output${i}`
-          ).innerHTML += `<td>${temp[j]}</td>`;
-        }
+      // fr result putting into worker object
+      // and making an array of workers.
+      const result = fr.result.split("\n");
+      const workers = new Array();
+      for (let i = 0; i < result.length; i++) {
+        const temp = result[i].split(" ");
+        for (let j = 0; j < temp.length; j++) {}
+        const workerObject = new worker(temp[0], temp[1], temp[2]);
+        workers[i] = workerObject;
       }
+      // populating the table
+      populateRow(workers);
     });
 
     fr.addEventListener("error", (e) => {
@@ -55,11 +57,18 @@ function retrieveTXT() {
   } else {
     alert("Empty file input");
   }
+}
 
-  // const data = "test";
-  // fs.writeFile(file, data, (err) => {
-  //   return alert("Failed to write file");
-  // });
+function populateRow(arr) {
+  let i = 0;
+  arr.forEach((e) => {
+    document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
+    document.getElementById(`output${i}`).innerHTML += `<th>${i + 1}</th>`;
+    document.getElementById(`output${i}`).innerHTML += `<td>${e.name}</td>`;
+    document.getElementById(`output${i}`).innerHTML += `<td>${e.nickname}</td>`;
+    document.getElementById(`output${i}`).innerHTML += `<td>${e.surname}</td>`;
+    i++;
+  });
 }
 
 function toggleInput() {

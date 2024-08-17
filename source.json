@@ -1,5 +1,12 @@
-{
-  "Name": "John",
-  "Nickname": "Pain",
-  "Surname": "Cena"
-}
+[
+  {
+    "Name": "John",
+    "Nickname": "Pain",
+    "Surname": "Cena"
+  },
+  {
+    "Name": "Dom",
+    "Nickname": "Danger",
+    "Surname": "Gird"
+  }
+]
