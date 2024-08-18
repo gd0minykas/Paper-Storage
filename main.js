@@ -32,7 +32,7 @@ function retrieveJSON() {
 }
 
 // Retreive from a txt.
-// File format with '' to allow names with whitespaces.
+// File format with '' to allow names with whitespaces. (NOT MVP)
 function retrieveTXT() {
   // reading a file
   if (document.querySelector("input[type=file]").value !== "") {
@@ -69,7 +69,7 @@ function retrieveTXT() {
     return alert("Empty file input");
   }
 }
-
+// Populating a table.
 function populateRow(arr) {
   let i = 0;
   arr.forEach((e) => {
@@ -78,8 +78,22 @@ function populateRow(arr) {
     document.getElementById(`output${i}`).innerHTML += `<td>${e.name}</td>`;
     document.getElementById(`output${i}`).innerHTML += `<td>${e.nickname}</td>`;
     document.getElementById(`output${i}`).innerHTML += `<td>${e.surname}</td>`;
+    document.getElementById(`output${i}`).innerHTML += `<td><a href="#"
+    class="link-warning link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
+    Edit
+    </a>
+     | 
+    <a href="#" 
+    class="link-warning link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
+    Delete
+    </a>`;
     i++;
   });
+  document.querySelector("table").innerHTML += `<tr id=newWorker>
+  <button onclick="clearInput()" class="btn btn-warning my-3 me-3">
+    New Worker
+  </button>
+  </tr>`;
 }
 
 function toggleInput() {
