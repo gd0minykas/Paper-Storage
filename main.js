@@ -1,6 +1,7 @@
 // MVP - Minimum Viable Program
 
 const tableTemplate = document.querySelector("table").innerHTML;
+let showField = false;
 let showInput = false;
 
 function worker(name, nickname, surname) {
@@ -21,13 +22,12 @@ function retrieveJSON() {
     })
     .then((json) => {
       let i = 0;
-      const workers = new Array();
       json.forEach((e) => {
         const workerObject = new worker(e.Name, e.Nickname, e.Surname);
-        workers[i] = workerObject;
+        localStorage.setItem(i, JSON.stringify(workerObject));
         i++;
       });
-      populateRow(workers);
+      populateRow();
     });
 }
 
@@ -51,14 +51,13 @@ function retrieveTXT() {
       // fr result putting into worker object
       // and making an array of workers.
       const result = fr.result.split("\n");
-      const workers = new Array();
       for (let i = 0; i < result.length; i++) {
         const temp = result[i].split(" ");
         const workerObject = new worker(temp[0], temp[1], temp[2]);
-        workers[i] = workerObject;
+        localStorage.setItem(i, JSON.stringify(workerObject));
       }
       // populating the table
-      populateRow(workers);
+      populateRow();
     });
     // Error handling
     fr.addEventListener("error", (e) => {
@@ -70,15 +69,25 @@ function retrieveTXT() {
   }
 }
 // Populating a table.
-function populateRow(arr) {
-  let i = 0;
-  arr.forEach((e) => {
-    localStorage.setItem(i, JSON.stringify(e));
+function populateRow() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const workerTemp = JSON.parse(localStorage.getItem(`${i}`));
+    const workerObject = new worker(
+      workerTemp.name,
+      workerTemp.nickname,
+      workerTemp.surname
+    );
     document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
     document.getElementById(`output${i}`).innerHTML += `<th>${i + 1}</th>`;
-    document.getElementById(`output${i}`).innerHTML += `<td>${e.name}</td>`;
-    document.getElementById(`output${i}`).innerHTML += `<td>${e.nickname}</td>`;
-    document.getElementById(`output${i}`).innerHTML += `<td>${e.surname}</td>`;
+    document.getElementById(
+      `output${i}`
+    ).innerHTML += `<td><input class="form-control" id="fieldName${i}" type="text" value="${workerObject.name}" disabled /></td>`;
+    document.getElementById(
+      `output${i}`
+    ).innerHTML += `<td><input class="form-control" id="fieldNick${i}" type="text" value="${workerObject.nickname}" disabled /></td>`;
+    document.getElementById(
+      `output${i}`
+    ).innerHTML += `<td><input class="form-control" id="fieldSur${i}" type="text" value="${workerObject.surname}" disabled /></td>`;
     document.getElementById(
       `output${i}`
     ).innerHTML += `<td><button id="${i}" onClick="editWorker(this.id)"
@@ -90,8 +99,7 @@ function populateRow(arr) {
     class="btn btn-warning btn-sm">
     Delete
     </button>`;
-    i++;
-  });
+  }
   document.querySelector("table").innerHTML += `<tr id=newWorker>
   <button onclick="addNewWorker()" class="btn btn-warning my-3 me-3">
     New Worker
@@ -100,20 +108,21 @@ function populateRow(arr) {
 }
 
 function editWorker(id) {
-  console.log(document.getElementById(`output${id}`));
-  console.log(JSON.parse(localStorage.getItem(`${id}`)));
+  showField = true;
+  //THIS!!@!@!#
+  document.getElementById(`fieldName${id}`).ariaDisabled = false;
+  document.getElementById(`fieldNick${id}`).ariaDisabled = false;
+  document.getElementById(`fieldSur${id}`).ariaDisabled = false;
+  // console.log(document.getElementById(`fieldName${id}`).value);
+  // console.log(document.getElementById(`fieldNick${id}`).value);
+  // console.log(document.getElementById(`fieldSur${id}`).value);
 }
 
-function deleteWorker(id) {
-  console.log(document.getElementById(`output${id}`));
-  console.log(localStorage.getItem(`${id}`));
-}
+function deleteWorker(id) {}
 
 function addNewWorker() {
   console.log("NEW");
 }
-
-// function showInput() {}
 
 function toggleInput() {
   showInput = !showInput;
