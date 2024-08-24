@@ -62,7 +62,25 @@
             <th>Actions</th>
           </tr>
         </table>
-        <div class="mt-5">
+        <div class="mb-3">
+          <button
+            id="new"
+            onclick="addNewWorker()"
+            class="btn btn-warning btn-sm me-2"
+            hidden
+          >
+            New
+          </button>
+          <button
+            id="save"
+            onclick="saveEditWorker()"
+            class="btn btn-warning btn-sm"
+            hidden
+          >
+            Save
+          </button>
+        </div>
+        <div class="mt-4">
           <button onclick="resetTable()" class="btn btn-dark">
             Reset Table
           </button>

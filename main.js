@@ -91,37 +91,42 @@ function populateRow() {
     document.getElementById(
       `output${i}`
     ).innerHTML += `<td><button id="${i}" onClick="editWorker(this.id)"
-    class="btn btn-warning btn-sm">
-    Edit
+      class="btn btn-warning btn-sm">
+      Edit
     </button>
      | 
     <button id="${i}" onClick="deleteWorker(this.id)"
-    class="btn btn-warning btn-sm">
-    Delete
+      class="btn btn-warning btn-sm">
+      Delete
     </button>`;
   }
-  document.querySelector("table").innerHTML += `<tr id=newWorker>
-  <button onclick="addNewWorker()" class="btn btn-warning my-3 me-3">
-    New Worker
-  </button>
-  </tr>`;
+  document.getElementById(`new`).removeAttribute("hidden");
 }
 
 function editWorker(id) {
   showField = true;
-  //THIS!!@!@!#
-  document.getElementById(`fieldName${id}`).ariaDisabled = false;
-  document.getElementById(`fieldNick${id}`).ariaDisabled = false;
-  document.getElementById(`fieldSur${id}`).ariaDisabled = false;
-  // console.log(document.getElementById(`fieldName${id}`).value);
-  // console.log(document.getElementById(`fieldNick${id}`).value);
-  // console.log(document.getElementById(`fieldSur${id}`).value);
+  document.getElementById(`fieldName${id}`).removeAttribute("disabled");
+  document.getElementById(`fieldNick${id}`).removeAttribute("disabled");
+  document.getElementById(`fieldSur${id}`).removeAttribute("disabled");
+  document.getElementById(`${id}`).setAttribute("disabled", true);
+  document.getElementById(`save`).removeAttribute("hidden");
 }
 
 function deleteWorker(id) {}
 
 function addNewWorker() {
   console.log("NEW");
+}
+
+function saveEditWorker() {
+  // after save, disable input fields and save object to the file
+  document.getElementById(`save`).setAttribute("hidden", true);
+  for (let i = 0; i < localStorage.length; i++) {
+    document.getElementById(`fieldName${i}`).setAttribute("disabled", true);
+    document.getElementById(`fieldNick${i}`).setAttribute("disabled", true);
+    document.getElementById(`fieldSur${i}`).setAttribute("disabled", true);
+    document.getElementById(`${i}`).removeAttribute("disabled");
+  }
 }
 
 function toggleInput() {
@@ -142,5 +147,7 @@ function clearInput() {
 
 function resetTable() {
   clearInput();
+  document.getElementById(`save`).setAttribute("hidden", true);
+  document.getElementById(`new`).setAttribute("hidden", true);
   document.querySelector("table").innerHTML = tableTemplate;
 }
