@@ -73,28 +73,47 @@ function retrieveTXT() {
 function populateRow(arr) {
   let i = 0;
   arr.forEach((e) => {
+    localStorage.setItem(i, JSON.stringify(e));
     document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
     document.getElementById(`output${i}`).innerHTML += `<th>${i + 1}</th>`;
     document.getElementById(`output${i}`).innerHTML += `<td>${e.name}</td>`;
     document.getElementById(`output${i}`).innerHTML += `<td>${e.nickname}</td>`;
     document.getElementById(`output${i}`).innerHTML += `<td>${e.surname}</td>`;
-    document.getElementById(`output${i}`).innerHTML += `<td><a href="#"
-    class="link-warning link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
+    document.getElementById(
+      `output${i}`
+    ).innerHTML += `<td><button id="${i}" onClick="editWorker(this.id)"
+    class="btn btn-warning btn-sm">
     Edit
-    </a>
+    </button>
      | 
-    <a href="#" 
-    class="link-warning link-offset-2 link-underline-opacity-50 link-underline-opacity-100-hover">
+    <button id="${i}" onClick="deleteWorker(this.id)"
+    class="btn btn-warning btn-sm">
     Delete
-    </a>`;
+    </button>`;
     i++;
   });
   document.querySelector("table").innerHTML += `<tr id=newWorker>
-  <button onclick="clearInput()" class="btn btn-warning my-3 me-3">
+  <button onclick="addNewWorker()" class="btn btn-warning my-3 me-3">
     New Worker
   </button>
   </tr>`;
 }
+
+function editWorker(id) {
+  console.log(document.getElementById(`output${id}`));
+  console.log(JSON.parse(localStorage.getItem(`${id}`)));
+}
+
+function deleteWorker(id) {
+  console.log(document.getElementById(`output${id}`));
+  console.log(localStorage.getItem(`${id}`));
+}
+
+function addNewWorker() {
+  console.log("NEW");
+}
+
+// function showInput() {}
 
 function toggleInput() {
   showInput = !showInput;
@@ -113,7 +132,6 @@ function clearInput() {
 }
 
 function resetTable() {
-  // Thinking about this!! Remove clearInput and call as both clear and reset.
   clearInput();
   document.querySelector("table").innerHTML = tableTemplate;
 }
