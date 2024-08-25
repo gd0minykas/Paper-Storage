@@ -1,7 +1,5 @@
 // MVP - Minimum Viable Program
-
 const tableTemplate = document.querySelector("table").innerHTML;
-let showField = false;
 let showInput = false;
 
 function worker(name, nickname, surname) {
@@ -109,23 +107,52 @@ function editWorker(id) {
   document.getElementById(`fieldNick${id}`).removeAttribute("disabled");
   document.getElementById(`fieldSur${id}`).removeAttribute("disabled");
   document.getElementById(`${id}`).setAttribute("disabled", true);
+  // expose save button
   document.getElementById(`save`).removeAttribute("hidden");
 }
 
-function deleteWorker(id) {}
-
-function addNewWorker() {
-  console.log("NEW");
+function deleteWorker(id) {
+  // localStorage put into an array, remove a field and push back.
+  let arr = new Array();
+  for (let i = 0; i < localStorage.length; i++) {
+    arr[i] = JSON.parse(localStorage.getItem(`${i}`));
+  }
+  arr.splice(id, 1);
+  localStorage.clear();
+  let j = 0;
+  arr.forEach((e) => {
+    localStorage.setItem(`${j}`, JSON.stringify(e));
+    j++;
+  });
+  resetTable();
+  populateRow();
+  // expose save button
+  document.getElementById(`save`).removeAttribute("hidden");
 }
 
-function saveEditWorker() {
+function addNewWorker() {
+  // expose save button
+  document.getElementById(`save`).removeAttribute("hidden");
+}
+
+function save() {
+  console.log("pressed");
   // after save, disable input fields and save object to the file
+  // hide save button
   document.getElementById(`save`).setAttribute("hidden", true);
   for (let i = 0; i < localStorage.length; i++) {
     document.getElementById(`fieldName${i}`).setAttribute("disabled", true);
     document.getElementById(`fieldNick${i}`).setAttribute("disabled", true);
     document.getElementById(`fieldSur${i}`).setAttribute("disabled", true);
     document.getElementById(`${i}`).removeAttribute("disabled");
+  }
+  for (let i = 0; i < localStorage.length; i++) {
+    const workerObject = new worker(
+      document.getElementById(`fieldName${i}`).value,
+      document.getElementById(`fieldNick${i}`).value,
+      document.getElementById(`fieldSur${i}`).value
+    );
+    localStorage.setItem(`${i}`, JSON.stringify(workerObject));
   }
 }
 
