@@ -1,6 +1,7 @@
 // MVP - Minimum Viable Program
 const tableTemplate = document.querySelector("table").innerHTML;
 let showInput = false;
+let newWorkerToLocalStorage = false;
 
 function worker(name, nickname, surname) {
   this.name = name;
@@ -133,20 +134,52 @@ function deleteWorker(id) {
 function addNewWorker() {
   // expose save button
   document.getElementById(`save`).removeAttribute("hidden");
+  // check how much workders are saves in local storage, then last key++
+  // and create a row with input fields. After values are inputed, Save.
+  const newWorkerName = "";
+  const newWorkerNick = "";
+  const newWorkerSur = "";
+  const i = localStorage.length;
+
+  document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
+  document.getElementById(`output${i}`).innerHTML += `<th>${i + 1}</th>`;
+  document.getElementById(
+    `output${i}`
+  ).innerHTML += `<td><input class="form-control" id="fieldName${i}" type="text" value="${newWorkerName}" disabled /></td>`;
+  document.getElementById(
+    `output${i}`
+  ).innerHTML += `<td><input class="form-control" id="fieldNick${i}" type="text" value="${newWorkerNick}" disabled /></td>`;
+  document.getElementById(
+    `output${i}`
+  ).innerHTML += `<td><input class="form-control" id="fieldSur${i}" type="text" value="${newWorkerSur}" disabled /></td>`;
+  document.getElementById(
+    `output${i}`
+  ).innerHTML += `<td><button id="${i}" onClick="editWorker(this.id)"
+      class="btn btn-warning btn-sm">
+      Edit
+    </button>
+     | 
+    <button id="${i}" onClick="deleteWorker(this.id)"
+      class="btn btn-warning btn-sm">
+      Delete
+    </button>`;
+  newWorkerToLocalStorage = true;
+  editWorker(i);
 }
 
 function save() {
-  console.log("pressed");
+  let localStorageLength = localStorage.length;
+  if (newWorkerToLocalStorage) localStorageLength++;
   // after save, disable input fields and save object to the file
   // hide save button
   document.getElementById(`save`).setAttribute("hidden", true);
-  for (let i = 0; i < localStorage.length; i++) {
+  for (let i = 0; i < localStorageLength; i++) {
     document.getElementById(`fieldName${i}`).setAttribute("disabled", true);
     document.getElementById(`fieldNick${i}`).setAttribute("disabled", true);
     document.getElementById(`fieldSur${i}`).setAttribute("disabled", true);
     document.getElementById(`${i}`).removeAttribute("disabled");
   }
-  for (let i = 0; i < localStorage.length; i++) {
+  for (let i = 0; i < localStorageLength; i++) {
     const workerObject = new worker(
       document.getElementById(`fieldName${i}`).value,
       document.getElementById(`fieldNick${i}`).value,
@@ -177,4 +210,5 @@ function resetTable() {
   document.getElementById(`save`).setAttribute("hidden", true);
   document.getElementById(`new`).setAttribute("hidden", true);
   document.querySelector("table").innerHTML = tableTemplate;
+  localStorage.clear();
 }
