@@ -11,6 +11,7 @@ function worker(name, nickname, surname) {
 
 // Retrieve to from JSON
 function retrieveJSON() {
+  localStorage.clear();
   resetTable();
   fetch("./source.json")
     .then((res) => {
@@ -33,6 +34,7 @@ function retrieveJSON() {
 // Retreive from a txt.
 // File format with '' to allow names with whitespaces. (NOT MVP)
 function retrieveTXT() {
+  localStorage.clear();
   // reading a file
   if (document.querySelector("input[type=file]").value !== "") {
     document.querySelector("table").innerHTML = tableTemplate;
@@ -69,6 +71,7 @@ function retrieveTXT() {
 }
 // Populating a table.
 function populateRow() {
+  resetTable();
   for (let i = 0; i < localStorage.length; i++) {
     const workerTemp = JSON.parse(localStorage.getItem(`${i}`));
     const workerObject = new worker(
@@ -136,9 +139,9 @@ function addNewWorker() {
   document.getElementById(`save`).removeAttribute("hidden");
   // check how much workders are saves in local storage, then last key++
   // and create a row with input fields. After values are inputed, Save.
-  const newWorkerName = "";
-  const newWorkerNick = "";
-  const newWorkerSur = "";
+  let newWorkerName = "";
+  let newWorkerNick = "";
+  let newWorkerSur = "";
   const i = localStorage.length;
 
   document.querySelector("table").innerHTML += `<tr id=output${i}></tr>`;
@@ -187,6 +190,7 @@ function save() {
     );
     localStorage.setItem(`${i}`, JSON.stringify(workerObject));
   }
+  populateRow();
 }
 
 function toggleInput() {
@@ -210,5 +214,4 @@ function resetTable() {
   document.getElementById(`save`).setAttribute("hidden", true);
   document.getElementById(`new`).setAttribute("hidden", true);
   document.querySelector("table").innerHTML = tableTemplate;
-  localStorage.clear();
 }
