@@ -7,4 +7,5 @@ Steps:
 - Implement reading to a table from a .txt (CHECK)
 - Implement reading to a table from a JSON (CHECK)
 - Implement CRUD (CHECK)
-- Save to file, creating a downloadable file()
+- Save to file, creating a downloadable file(CHECK)
+- Validation and edge cases ()

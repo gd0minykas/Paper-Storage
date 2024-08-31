@@ -24,28 +24,38 @@
           id="txt"
           class="btn btn-outline-dark me-3"
         >
-          From TXT file
+          Insert a Paper
         </button>
         <button onclick="retrieveJSON()" class="btn btn-outline-dark">
-          From JSON file
+          Demo Paper
         </button>
       </div>
       <div>
         <div class="mb-3 row" id="sourceDiv" style="visibility: hidden">
           <div class="col">
-            <label for="file" class="form-label">Choose a Paper</label>
-            <input
-              type="file"
-              class="form-control"
-              name="file"
-              onchange="retrieveTXT()"
-              accept="text/plain"
-            />
+            <div>
+              <label for="file" class="form-label"
+                >Insert Text File or JSON</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                name="file"
+                onchange="retrieveTXT()"
+                accept="text/plain,application/json"
+              />
+            </div>
+            <div class="mt-3 mt-2">
+              <button onclick="clearInput()" class="btn btn-warning btn-sm">
+                Clear
+              </button>
+            </div>
           </div>
-          <div class="col mt-3 pt-3">
-            <button onclick="clearInput()" class="btn btn-warning">
-              Clear
-            </button>
+          <div class="col mt-1">
+            <p class="fw-lighter float-end">
+              Text file structure:<br />Name Nickname Surname<br />Tester
+              Terminator Tester
+            </p>
           </div>
         </div>
         <table class="table caption-top">
@@ -81,9 +91,19 @@
           </button>
         </div>
         <div class="mt-4 mb-5">
-          <button onclick="resetTable()" class="btn btn-dark">
-            Reset Table
-          </button>
+          <div class="float-start">
+            <button onclick="resetTable()" class="btn btn-dark">
+              Reset Table
+            </button>
+          </div>
+          <div id="download" class="float-end" hidden>
+            <button onclick="downloadJSON()" class="btn btn-dark">
+              Download JSON
+            </button>
+            <button onclick="downloadText()" class="btn btn-dark">
+              Download Text File
+            </button>
+          </div>
         </div>
       </div>
     </div>

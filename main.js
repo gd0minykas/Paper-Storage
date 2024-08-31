@@ -2,6 +2,7 @@
 const tableTemplate = document.querySelector("table").innerHTML;
 let showInput = false;
 let newWorkerToLocalStorage = false;
+localStorage.clear();
 
 function worker(name, nickname, surname) {
   this.name = name;
@@ -103,6 +104,7 @@ function populateRow() {
     </button>`;
   }
   document.getElementById(`new`).removeAttribute("hidden");
+  document.getElementById(`download`).removeAttribute("hidden");
 }
 
 function editWorker(id) {
@@ -193,6 +195,49 @@ function save() {
   populateRow();
 }
 
+function downloadJSON() {
+  console.log("Download");
+  let arr = [];
+  // make array of objects, stringify them and make a blob
+  for (let i = 0; i < localStorage.length; i++) {
+    arr.push(localStorage.getItem(`${i}`));
+  }
+  const jsonData = JSON.stringify(arr);
+  console.log(jsonData);
+  const blob = new Blob([jsonData], {
+    type: "application/json",
+  });
+  const link = document.createElement("a");
+  link.download = "paperTable.json";
+  link.href = URL.createObjectURL(blob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  localStorage.clear();
+}
+
+function downloadText() {
+  let arr = [];
+  // make array of objects, stringify them and make a blob
+  for (let i = 0; i < localStorage.length; i++) {
+    arr.push(JSON.parse(localStorage.getItem(`${i}`)));
+  }
+  let textData = "";
+  arr.forEach((data) => {
+    textData += `${data.name} ${data.nickname} ${data.surname}\n`;
+  });
+  const blob = new Blob([textData], {
+    type: "text/plain",
+  });
+  const link = document.createElement("a");
+  link.download = "paperTable.txt";
+  link.href = URL.createObjectURL(blob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  localStorage.clear();
+}
+
 function toggleInput() {
   showInput = !showInput;
 
@@ -213,5 +258,6 @@ function resetTable() {
   clearInput();
   document.getElementById(`save`).setAttribute("hidden", true);
   document.getElementById(`new`).setAttribute("hidden", true);
+  document.getElementById(`download`).setAttribute("hidden", true);
   document.querySelector("table").innerHTML = tableTemplate;
 }
