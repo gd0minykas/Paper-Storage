@@ -55,8 +55,10 @@ function retrieveTXT() {
       const result = fr.result.split("\n");
       for (let i = 0; i < result.length; i++) {
         const temp = result[i].split(" ");
-        const workerObject = new worker(temp[0], temp[1], temp[2]);
-        localStorage.setItem(i, JSON.stringify(workerObject));
+        if (!temp[0] == "") {
+          const workerObject = new worker(temp[0], temp[1], temp[2]);
+          localStorage.setItem(i, JSON.stringify(workerObject));
+        }
       }
       // populating the table
       populateRow();
