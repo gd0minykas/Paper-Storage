@@ -215,7 +215,6 @@ function downloadJSON() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  localStorage.clear();
 }
 
 function downloadText() {
@@ -237,7 +236,6 @@ function downloadText() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  localStorage.clear();
 }
 
 function toggleInput() {
