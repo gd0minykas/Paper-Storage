@@ -204,9 +204,7 @@ function downloadJSON() {
   for (let i = 0; i < localStorage.length; i++) {
     arr.push(localStorage.getItem(`${i}`));
   }
-  const jsonData = JSON.stringify(arr);
-  console.log(jsonData);
-  const blob = new Blob([jsonData], {
+  const blob = new Blob([arr], {
     type: "application/json",
   });
   const link = document.createElement("a");
